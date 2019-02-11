@@ -6,7 +6,11 @@ if (!class_exists('ACF')) {
 } else {
 	//render the add form
 	echo '<h1 class="wp-heading-inline">Update Resource Link</h1>';
-
+	/*
+		REVIEW: Running this function in a view seems perilous
+		I may misudnerstand what is happening here but I wouldn't think
+		this would need to run every time the view is loaded. 
+	*/
 	acf_add_local_field_group(array(
 		'key' => 'uniqupeResourceLinksGroupKey',
 		'title' => 'Resource Links',

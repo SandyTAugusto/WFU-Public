@@ -1,4 +1,9 @@
 <?php
+
+/*
+	REVIEW: Nearlly 100% of the operations of this file would have been simplier 
+	and safer to implement via custom WP API endpoints, unless that was precluded by WFU
+*/
 //Class for resource links, handles the links object and deals with the hook functions as well.
 class WFUResourceLink {
 
@@ -27,9 +32,15 @@ class WFUResourceLink {
 
   public function delete($iLinkId) 
   {
+		/*
+		REVIEW: I probably would have set the table name as a class variable
+		*/
   	global $wpdb;
     $sTablename = $wpdb->prefix . 'wfu_resource_links';
 
+		/*
+			REVIEW: Generally Custom DB queries are supposed to be run though $wpdb->prepare
+		*/
     $wpdb->query("DELETE FROM $sTablename WHERE ID = " . $iLinkId);
   }
 
@@ -38,7 +49,15 @@ class WFUResourceLink {
   	global $wpdb;
     $sTablename = $wpdb->prefix . 'wfu_resource_links';
 
-    $oResults = $wpdb->get_results("SELECT * FROM $sTablename where ID = " . $iLinkId);
+		/*
+		REVIEW no use of $wpdb->prepare
+		*/
+		$oResults = $wpdb->get_results("SELECT * FROM $sTablename where ID = " . $iLinkId);
+		
+		/*
+			REVIEW (Personal preference?) I generally set a default value rather than leveraging else statements
+			Also easy to generate early returns and catch posibilities of invalid variabls.
+		*/
     if(!empty($oResults) && count($oResults) > 0) {
     	return (Array) $oResults[0];
     } else {
@@ -121,6 +140,10 @@ class WFUResourceLink {
 	{
 		$oResourceLink = new WFUResourceLink;
 
+		/*
+			REVIEW: Un-validated and santized parameters passed directly to DB operations
+			Complex and muddy nested if/else statements, with no clear return statement
+		*/
 	  //if they click the delete link try to delete this resource link
 	  if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
 	    $oResourceLink->delete($_GET['id']);

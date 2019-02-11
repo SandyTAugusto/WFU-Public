@@ -10,8 +10,13 @@ Author: Sandy Teed
 Version: 1.0.0
 */
 
+
 /*
 	GLOBALS START
+*/
+
+/* 
+	REVIEW: It is generally forwned upon in many WP Circles to add Global Variabls 
 */
 global $aDashboardMessageToEdit; //used for editing exisiting messages
 global $aWFUDashboardMessages; //messages
@@ -28,6 +33,11 @@ require_once plugin_dir_path( __FILE__ ) . 'class-dashboard-message.php';
 
 /*
 	HOOKS START
+
+	REVIEW: In my experience and in my work we typically call actions 
+	in the context of the class that they ar using either in an 
+	initialization function, in the constructor or in a get_instance 
+	static function to reduce action duplication
 */
 //CER-01
 //adds menu items if we are the superadmin
